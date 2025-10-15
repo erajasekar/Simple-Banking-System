@@ -28,43 +28,156 @@
 
 ---
 
-## Diagram Generation Instructions
+## Instructions for LLM: Extract Information and Generate Diagram Prompt
 
-Based on the code analysis above, create a comprehensive {{diagramType}} diagram:
+**IMPORTANT**: Your task is NOT to create a diagram directly. Instead:
+
+1. **Analyze the source code above** and extract all relevant information based on the diagram type
+2. **Generate comprehensive instructions** that another LLM can use to create the diagram WITHOUT having access to the source code
+3. **Include all necessary details** extracted from the code so the next LLM has complete information
 
 {{#if (eq diagramType "uml")}}
-### UML Class Diagram:
-- Show classes with attributes, methods, parameters, and return types
-- Display relationships: inheritance, composition, association, aggregation, dependency
-- Include multiplicities (1, *, 0..1, 1..*, etc.) and visibility modifiers (+, -, #)
-- Use standard UML notation: group related classes, position base classes above derived
-- Show interfaces, abstract classes, and stereotypes with proper notation
+### For UML Class Diagram - Extract and Document:
+
+**Classes and Interfaces:**
+- List each class/interface with its full name and purpose
+- Document all attributes with their types, visibility (public/private/protected), and default values
+- Document all methods with signatures: name, parameters (name + type), return types, and visibility
+- Identify constructors and their parameters
+
+**Relationships:**
+- Inheritance: Which classes extend which base classes
+- Composition: Strong ownership relationships (objects that cannot exist independently)
+- Association: References between classes with directionality
+- Aggregation: Weak ownership relationships (objects that can exist independently)
+- Dependency: Usage relationships (e.g., method parameters, temporary usage)
+- For each relationship, specify multiplicity (1, *, 0..1, 1..*, etc.)
+
+**Additional Details:**
+- Abstract classes and abstract methods
+- Interface implementations
+- Static members
+- Important constants or enums
+- Stereotypes (<<interface>>, <<abstract>>, etc.)
+
+**Output Format:**
+Generate a detailed prompt that describes the complete class structure and all relationships, formatted so another LLM can create the UML diagram without seeing the source code.
 {{/if}}
 
 {{#if (eq diagramType "flowchart")}}
-### Flowchart Diagram:
-- Show execution flow from start to end with all major processes
-- Display decision points (diamonds), loops, and conditional branches
-- Include error handling paths, data I/O, and user interaction points
+### For Flowchart Diagram - Extract and Document:
+
+**Entry Points:**
+- Identify main entry point(s) of the application
+- Document initial setup or initialization steps
+
+**Process Flow:**
+- List all major processes/functions in execution order
+- Document the sequence of operations in each process
+- Identify computational steps, data transformations, and business logic
+
+**Decision Points:**
+- List all conditional statements (if/else, switch cases)
+- Document the conditions being evaluated
+- Show alternative paths based on conditions
+
+**Loops and Iterations:**
+- Identify all loops (for, while, do-while)
+- Document loop conditions and iteration logic
+
+**Data I/O:**
+- Input operations: user input, file reads, API calls
+- Output operations: displays, file writes, API responses
+
+**Error Handling:**
+- Try-catch blocks and error handling paths
+- Validation points and failure scenarios
+
+**Interactions:**
+- User interaction points
+- System-to-system communication
+
+**Output Format:**
+Generate a detailed prompt that describes the complete flow from start to end with all decision points, loops, and error handling, formatted so another LLM can create the flowchart without seeing the source code.
 {{/if}}
 
 {{#if (eq diagramType "sequence")}}
-### Sequence Diagram:
-- Show participants/actors with lifelines, displaying user interactions and system responses
-- Display method calls and messages chronologically with return messages
-- Include activation boxes, synchronous/asynchronous calls, and conditional fragments (alt, opt, loop)
-- Show object creation/destruction where applicable
+### For Sequence Diagram - Extract and Document:
+
+**Participants/Actors:**
+- List all participants: users, systems, classes, objects
+- Identify their roles and responsibilities
+
+**Interaction Scenarios:**
+- Identify the main use case or scenario being illustrated
+- Document the sequence of events from start to finish
+
+**Message Flow:**
+- List each method call/message in chronological order
+- For each message: sender, receiver, message name, parameters
+- Identify synchronous vs asynchronous calls
+- Document return values and return messages
+
+**Activation/Lifelines:**
+- When each participant becomes active
+- Duration of processing for each participant
+
+**Control Structures:**
+- Alternative flows (alt): conditions and different paths
+- Optional flows (opt): conditional execution
+- Loops (loop): repetitive interactions
+- Parallel flows (par): concurrent operations
+
+**Object Lifecycle:**
+- Object creation points
+- Object destruction/cleanup points
+
+**Timing Constraints:**
+- Any timing dependencies or delays
+
+**Output Format:**
+Generate a detailed prompt that describes all participants and their interactions in sequence, formatted so another LLM can create the sequence diagram without seeing the source code.
 {{/if}}
 
 {{#if (eq diagramType "erd")}}
-### Entity Relationship Diagram (ERD):
-- Show entities with attributes, data types, primary keys (PK), and foreign keys (FK)
-- Display relationships with cardinality (one-to-one, one-to-many, many-to-many)
-- Include participation constraints, unique constraints, indexes, and weak entities
+### For Entity Relationship Diagram - Extract and Document:
+
+**Entities:**
+- List all entities (tables/classes representing data)
+- For each entity, document:
+  - Entity name and purpose
+  - All attributes with data types
+  - Primary key(s) - mark as PK
+  - Unique constraints
+  - Not-null constraints
+  - Default values
+
+**Relationships:**
+- List all relationships between entities
+- For each relationship:
+  - Source entity and target entity
+  - Relationship name/type
+  - Cardinality: one-to-one (1:1), one-to-many (1:N), many-to-many (M:N)
+  - Participation: mandatory (total) or optional (partial)
+  - Foreign key references - mark as FK
+
+**Weak Entities:**
+- Identify entities that depend on other entities for existence
+- Document their identifying relationships
+
+**Indexes:**
+- List any indexed fields for performance
+
+**Business Rules:**
+- Document any constraints or rules governing relationships
+- Cascade operations (ON DELETE, ON UPDATE)
+
+**Output Format:**
+Generate a detailed prompt that describes all entities, their attributes, and relationships, formatted so another LLM can create the ERD without seeing the source code.
 {{/if}}
 
 ---
 
 ## Summary
 
-Analyze the codebase above focusing on: class structures and interactions, module dependencies, data flow, user interactions, and entry points. Generate an accurate {{diagramType}} diagram that clearly communicates the system architecture.
+**Your Task:** Analyze the codebase thoroughly and extract all relevant {{diagramType}}-specific information. Create a comprehensive, self-contained prompt that another LLM can use to generate an accurate {{diagramType}} diagram without needing to see the original source code. Ensure no critical information is lost in the extraction process.

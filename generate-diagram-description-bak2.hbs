@@ -1,0 +1,70 @@
+# System Architecture Analysis for Diagram Generation
+
+## Project Information
+- **Project Path**: {{absolute_code_path}}
+- **Analysis Date**: Generated using code2prompt
+
+## Project Structure Overview
+
+```
+{{source_tree}}
+```
+
+## Detailed Codebase Analysis
+
+### Files and Components
+
+{{#each files}}
+---
+
+#### File: `{{path}}`
+
+
+##### Content:
+
+{{code}}
+
+{{/each}}
+
+---
+
+## Diagram Generation Instructions
+
+Based on the code analysis above, create a comprehensive {{diagramType}} diagram:
+
+{{#if (eq diagramType "uml")}}
+### UML Class Diagram:
+- Show classes with attributes, methods, parameters, and return types
+- Display relationships: inheritance, composition, association, aggregation, dependency
+- Include multiplicities (1, *, 0..1, 1..*, etc.) and visibility modifiers (+, -, #)
+- Use standard UML notation: group related classes, position base classes above derived
+- Show interfaces, abstract classes, and stereotypes with proper notation
+{{/if}}
+
+{{#if (eq diagramType "flowchart")}}
+### Flowchart Diagram:
+- Show execution flow from start to end with all major processes
+- Display decision points (diamonds), loops, and conditional branches
+- Include error handling paths, data I/O, and user interaction points
+{{/if}}
+
+{{#if (eq diagramType "sequence")}}
+### Sequence Diagram:
+- Show participants/actors with lifelines, displaying user interactions and system responses
+- Display method calls and messages chronologically with return messages
+- Include activation boxes, synchronous/asynchronous calls, and conditional fragments (alt, opt, loop)
+- Show object creation/destruction where applicable
+{{/if}}
+
+{{#if (eq diagramType "erd")}}
+### Entity Relationship Diagram (ERD):
+- Show entities with attributes, data types, primary keys (PK), and foreign keys (FK)
+- Display relationships with cardinality (one-to-one, one-to-many, many-to-many)
+- Include participation constraints, unique constraints, indexes, and weak entities
+{{/if}}
+
+---
+
+## Summary
+
+Analyze the codebase above focusing on: class structures and interactions, module dependencies, data flow, user interactions, and entry points. Generate an accurate {{diagramType}} diagram that clearly communicates the system architecture.
