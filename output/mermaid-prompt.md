@@ -16,7 +16,7 @@ Simple-Banking-System
 ## Source Code Files
 
 ### bank.py
-```py
+
 ```py
 class Bank:
 
@@ -34,10 +34,9 @@ class Bank:
                 return self.clients[i]
 
 ```
-```
 
 ### client.py
-```py
+
 ```py
 from random import randint
 
@@ -74,10 +73,9 @@ class Client:
         print("Your current account balance is: {} ".format(self.account['holdings']))
 
 ```
-```
 
 ### main.py
-```py
+
 ```py
 from client import Client
 from bank import Bank
@@ -152,7 +150,6 @@ while running:
         print("Goodbye!")
         running = False
 
-```
 ```
 
 

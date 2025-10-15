@@ -22,11 +22,9 @@ Simple-Banking-System
 
 #### File: `bank.py`
 
-**Extension**: py
 
 ##### Content:
 
-```py
 ```py
 class Bank:
 
@@ -44,17 +42,14 @@ class Bank:
                 return self.clients[i]
 
 ```
-```
 
 ---
 
 #### File: `client.py`
 
-**Extension**: py
 
 ##### Content:
 
-```py
 ```py
 from random import randint
 
@@ -91,17 +86,14 @@ class Client:
         print("Your current account balance is: {} ".format(self.account['holdings']))
 
 ```
-```
 
 ---
 
 #### File: `main.py`
 
-**Extension**: py
 
 ##### Content:
 
-```py
 ```py
 from client import Client
 from bank import Bank
@@ -176,7 +168,6 @@ while running:
         print("Goodbye!")
         running = False
 
-```
 ```
 
 
