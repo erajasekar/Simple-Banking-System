@@ -1,0 +1,49 @@
+# Generate Architecture Diagram
+
+You are an expert software architect. Create a comprehensive architecture diagram in Mermaid syntax based on the following codebase.
+
+## Project: {{absolute_code_path}}
+
+## Directory Structure
+```
+{{source_tree}}
+```
+
+## Source Code Files
+
+{{#each files}}
+### {{path}}
+```{{extension}}
+{{code}}
+```
+
+{{/each}}
+
+---
+
+## Task: Generate Architecture Diagrams
+
+Based on the code above, create the following diagrams using Mermaid syntax:
+
+### 1. Class Diagram
+Show all classes, their attributes, methods, and relationships (inheritance, composition, associations).
+
+### 2. Component/Module Diagram  
+Show the high-level components and their dependencies/interactions.
+
+### 3. Sequence Diagram
+Show the main user interaction flows through the system.
+
+### Requirements:
+- Identify all classes and their relationships
+- Map out dependencies between modules
+- Show data flow and method calls
+- Include entry points and main execution paths
+- Label all relationships clearly
+- Use appropriate Mermaid diagram types (classDiagram, graph, sequenceDiagram)
+
+### Output Format:
+Provide complete, valid Mermaid syntax for each diagram type. Each diagram should be standalone and renderable.
+
+Generate the diagrams now.
+

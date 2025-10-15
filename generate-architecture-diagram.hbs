@@ -1,0 +1,76 @@
+# System Architecture Diagram Generation Prompt
+
+You are an expert software architect tasked with creating a comprehensive system architecture diagram using D2 (diagram as code language).
+
+## Project Overview
+
+**Project Path**: {{absolute_code_path}}
+
+## Project Structure
+
+```
+{{source_tree}}
+```
+
+## Codebase Analysis
+
+### Files and Components
+
+{{#each files}}
+---
+{{#if code}}
+`{{path}}`:
+
+{{code}}
+
+{{/if}}
+{{/each}}
+
+## Your Task
+
+Based on the codebase structure and file contents provided above, create a **system architecture diagram** using D2 syntax that illustrates:
+
+1. **Main architectural layers** (e.g., Frontend, API, Data Layer, External Services)
+2. **Key components and modules** (pages, layouts, components, utilities, APIs)
+3. **Data flow** and interactions between components
+4. **External dependencies** (frameworks, libraries, services)
+5. **Component relationships** and hierarchy
+
+### D2 Diagram Requirements:
+
+- Use containers to group related components
+- Show clear connections with labeled arrows indicating data flow
+- Include all major directories as architectural components
+- Highlight important patterns (e.g., layouts wrapping pages, API endpoints, content management)
+- Use proper D2 syntax with shapes, styles, and directions
+- Add a title and legend if necessary
+
+### D2 Syntax Guidelines:
+
+```d2
+# Use this format:
+component1 -> component2: relationship label
+container: {
+  nested_component
+  nested_component2
+}
+```
+
+### Focus Areas:
+
+- **Frontend Architecture**: How pages, layouts, and components are organized
+- **Content Management**: Blog posts, markdown processing, and content configuration
+- **Routing**: Page structure and navigation
+- **Utilities**: Helper functions and their usage across the app
+- **External Integrations**: Any APIs, external services, or third-party integrations
+- **Build Process**: Framework configuration and build pipeline
+
+## Output Format
+
+Provide:
+1. A brief architectural overview (2-3 paragraphs)
+2. The complete D2 diagram code
+3. Key architectural decisions and patterns identified
+
+**Generate the D2 diagram now.**
+
