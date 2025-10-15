@@ -28,92 +28,43 @@
 
 ---
 
-## Architectural Analysis Guide
-
-### Key Observations for Diagram Generation:
-
-1. **Module Dependencies**: 
-   - Analyze import statements across files to understand module coupling
-   - Identify which modules depend on others
-
-2. **Class Hierarchies**: 
-   - Identify class definitions and their relationships
-   - Map out class attributes and methods
-
-3. **Data Flow**: 
-   - Trace how data moves through the system
-   - Identify data transformations and processing
-
-4. **Entry Points**: 
-   - Identify main execution files
-   - Map user interaction entry points
-
-5. **Component Relationships**:
-   - Show which components interact with each other
-   - Identify data passing and method calls
-
-### Suggested Diagram Elements:
-
-#### Components to Include:
-- All classes with their key methods
-- Module relationships
-- Data flow paths
-- User interaction points
-
-#### Relationships to Show:
-- Module imports and dependencies
-- Class instantiations and usage
-- Method calls and data flow
-- User interactions and system responses
-
-#### Architectural Layers:
-- **Presentation Layer**: User interface and interaction handling
-- **Business Logic Layer**: Core application logic and classes
-- **Data Layer**: Data models and storage mechanisms
-- **Utility Layer**: Helper functions and utilities
-
 ## Diagram Generation Instructions
 
-Based on the code analysis above, create comprehensive architecture diagrams that include:
+Based on the code analysis above, create a comprehensive {{diagramType}} diagram:
 
-### 1. Class Diagram
-- Show all classes with their attributes and methods
-- Display relationships (composition, association, dependency)
-- Include multiplicities where relevant
+{{#if (eq diagramType "uml")}}
+### UML Class Diagram:
+- Show classes with attributes, methods, parameters, and return types
+- Display relationships: inheritance, composition, association, aggregation, dependency
+- Include multiplicities (1, *, 0..1, 1..*, etc.) and visibility modifiers (+, -, #)
+- Use standard UML notation: group related classes, position base classes above derived
+- Show interfaces, abstract classes, and stereotypes with proper notation
+{{/if}}
 
-### 2. Component Diagram
-- Show high-level modules and their dependencies
-- Display import relationships
-- Group related components
+{{#if (eq diagramType "flowchart")}}
+### Flowchart Diagram:
+- Show execution flow from start to end with all major processes
+- Display decision points (diamonds), loops, and conditional branches
+- Include error handling paths, data I/O, and user interaction points
+{{/if}}
 
-### 3. Sequence Diagram
-- Show main user interaction flows
-- Display method calls in order
-- Include decision points
+{{#if (eq diagramType "sequence")}}
+### Sequence Diagram:
+- Show participants/actors with lifelines, displaying user interactions and system responses
+- Display method calls and messages chronologically with return messages
+- Include activation boxes, synchronous/asynchronous calls, and conditional fragments (alt, opt, loop)
+- Show object creation/destruction where applicable
+{{/if}}
 
-### 4. Architecture Diagram
-- Show overall system structure
-- Display layers and their components
-- Include external dependencies
-
-### Visual Recommendations:
-- Group related components into containers/packages
-- Use different colors for different layers
-- Show directionality with arrows
-- Label all relationships clearly
-- Include legends for symbols used
+{{#if (eq diagramType "erd")}}
+### Entity Relationship Diagram (ERD):
+- Show entities with attributes, data types, primary keys (PK), and foreign keys (FK)
+- Display relationships with cardinality (one-to-one, one-to-many, many-to-many)
+- Include participation constraints, unique constraints, indexes, and weak entities
+{{/if}}
 
 ---
 
 ## Summary
 
-This codebase analysis provides a comprehensive view of the system structure, component relationships, and architectural patterns. Use this information to generate accurate and detailed system architecture diagrams.
-
-### Key Focus Areas:
-- Class structures and their interactions
-- Module dependencies and imports
-- Data flow through the system
-- User interaction patterns
-- Entry points and main execution flows
-
-Generate diagrams that clearly communicate the system architecture to both technical and non-technical stakeholders.
+Analyze the codebase above focusing on: class structures and interactions, module dependencies, data flow, user interactions, and entry points. Generate an accurate {{diagramType}} diagram that clearly communicates the system architecture.

@@ -1,0 +1,174 @@
+# System Architecture Analysis for Diagram Generation
+
+## Project Information
+- **Project Path**: {{absolute_code_path}}
+- **Analysis Date**: Generated using code2prompt
+
+## Project Structure Overview
+
+```
+{{source_tree}}
+```
+
+## Detailed Codebase Analysis
+
+### Files and Components
+
+{{#each files}}
+---
+
+#### File: `{{path}}`
+
+
+##### Content:
+
+{{code}}
+
+{{/each}}
+
+---
+
+## Architectural Analysis Guide
+
+### Key Observations for Diagram Generation:
+
+1. **Module Dependencies**: 
+   - Analyze import statements across files to understand module coupling
+   - Identify which modules depend on others
+
+2. **Class Hierarchies**: 
+   - Identify class definitions and their relationships
+   - Map out class attributes and methods
+
+3. **Data Flow**: 
+   - Trace how data moves through the system
+   - Identify data transformations and processing
+
+4. **Entry Points**: 
+   - Identify main execution files
+   - Map user interaction entry points
+
+5. **Component Relationships**:
+   - Show which components interact with each other
+   - Identify data passing and method calls
+
+### Suggested Diagram Elements:
+
+#### Components to Include:
+- Module relationships
+- Data flow paths
+- User interaction points
+
+#### Relationships to Show:
+- Method calls and data flow
+- User interactions and system responses
+
+#### Architectural Layers:
+- **Presentation Layer**: User interface and interaction handling
+- **Business Logic Layer**: Core application logic and classes
+- **Data Layer**: Data models and storage mechanisms
+- **Utility Layer**: Helper functions and utilities
+
+## Diagram Generation Instructions
+
+Based on the code analysis above, create a comprehensive {{diagramType}} diagram:
+
+{{#if (eq diagramType "uml")}}
+### UML Class Diagram Requirements:
+- Show all classes with their attributes and methods
+- Display relationships (inheritance, composition, association, aggregation, dependency)
+- Include multiplicities where relevant (1, *, 0..1, 1..*, etc.)
+- Show visibility modifiers (public +, private -, protected #)
+- Group classes into packages if applicable
+- Include interfaces and abstract classes with proper notation
+- Display class stereotypes where appropriate
+- Show method parameters and return types
+
+### Visual Recommendations:
+- Use standard UML notation and symbols
+- Group related classes into packages/namespaces
+- Position base classes above derived classes
+- Show directionality with arrows (open for dependency, closed for association)
+- Label all relationships clearly
+- Use different line styles (solid, dashed) appropriately
+{{/if}}
+
+{{#if (eq diagramType "flowchart")}}
+### Flowchart Diagram Requirements:
+- Show the main execution flow of the system
+- Display decision points with diamond shapes
+- Include start and end points
+- Show all major processes and operations
+- Display loops and conditional branches
+- Include error handling paths
+- Show data inputs and outputs
+- Display user interaction points
+
+### Visual Recommendations:
+- Use standard flowchart symbols (rectangles for processes, diamonds for decisions)
+- Maintain consistent flow direction (typically top-to-bottom or left-to-right)
+- Label all decision branches clearly (Yes/No, True/False)
+- Group related processes in swim lanes if applicable
+- Use different colors for different types of operations
+- Keep the flow logical and easy to follow
+- Avoid crossing lines where possible
+{{/if}}
+
+{{#if (eq diagramType "sequence")}}
+### Sequence Diagram Requirements:
+- Show main user interaction flows and system responses
+- Display all participants/actors at the top
+- Show method calls and messages in chronological order
+- Include return messages where relevant
+- Display activation boxes for active processes
+- Show synchronous and asynchronous calls
+- Include loops and conditional fragments (alt, opt, loop)
+- Display lifelines for all objects
+- Show object creation and destruction if applicable
+
+### Visual Recommendations:
+- Arrange participants logically (user on left, external systems on right)
+- Use solid arrows for synchronous calls, dashed for returns
+- Label all messages with method names and parameters
+- Include alt/opt/loop frames for conditional logic
+- Show timing constraints if relevant
+- Keep message flows clear and non-overlapping
+- Add notes for complex interactions
+{{/if}}
+
+{{#if (eq diagramType "erd")}}
+### Entity Relationship Diagram (ERD) Requirements:
+- Show all entities (tables/models) in the system
+- Display all attributes for each entity
+- Mark primary keys (PK) and foreign keys (FK)
+- Show relationships between entities (one-to-one, one-to-many, many-to-many)
+- Include cardinality and participation constraints
+- Display data types for attributes
+- Show unique constraints and indexes
+- Include weak entities if applicable
+
+### Visual Recommendations:
+- Use standard ERD notation (Chen, Crow's Foot, or UML style)
+- Position related entities close to each other
+- Clearly mark primary keys (underline or PK label)
+- Show foreign key relationships with appropriate lines
+- Label relationships with verb phrases
+- Use different shapes for entities, attributes, and relationships
+- Include a legend for notation used
+- Group entities by domain/module if applicable
+{{/if}}
+
+---
+
+## Summary
+
+This codebase analysis provides a comprehensive view of the system structure, component relationships, and architectural patterns. Use this information to generate accurate and detailed system architecture diagrams.
+
+### Key Focus Areas:
+- Class structures and their interactions
+- Module dependencies and imports
+- Data flow through the system
+- User interaction patterns
+- Entry points and main execution flows
+
+Generate diagrams that clearly communicate the system architecture to both technical and non-technical stakeholders.
