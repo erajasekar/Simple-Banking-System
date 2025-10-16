@@ -37,6 +37,12 @@
 3. **Focus on clarity over completeness** - include only what's necessary for a clear, simple diagram
 4. **Minimize token count** - use bullet points, abbreviations, and efficient formatting
 
+**CRITICAL RULE**: 
+- **DO NOT make up, infer, or assume anything**
+- **ONLY include information that explicitly exists in the source code**
+- If something is not present in the code, DO NOT include it in your output
+- Extract facts directly from the code - no interpretation or assumptions
+
 {{#if (eq diagramType "uml")}}
 ### For UML Class Diagram - Extract Essentials:
 
@@ -88,4 +94,10 @@ Concise prompt: entities list with attributes, then relationships as "Entity1 --
 
 ## Summary
 
-**Your Task:** Extract ONLY essential {{diagramType}}-specific information from the code. Generate a simple, token-efficient prompt for another LLM to create a basic {{diagramType}} diagram. Prioritize brevity and clarity - use abbreviations, bullet points, and minimal formatting. Keep the output as short as possible while maintaining diagram accuracy.
+**Your Task:** Extract ONLY essential {{diagramType}}-specific information that actually exists in the source code above. Generate a simple, token-efficient prompt for another LLM to create a basic {{diagramType}} diagram. 
+
+**Remember:**
+- Extract only what's explicitly in the code - no assumptions or inferences
+- Prioritize brevity and clarity - use abbreviations, bullet points, minimal formatting
+- Keep output as short as possible while maintaining accuracy
+- If in doubt, exclude rather than make assumptions

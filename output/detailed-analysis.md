@@ -173,49 +173,25 @@ while running:
 
 ---
 
-## Instructions for LLM: Extract Information and Generate Diagram Prompt
+## Instructions for LLM: Extract Key Information and Generate Concise Diagram Prompt
 
 **IMPORTANT**: Your task is NOT to create a diagram directly. Instead:
 
-1. **Analyze the source code above** and extract all relevant information based on the diagram type
-2. **Generate comprehensive instructions** that another LLM can use to create the diagram WITHOUT having access to the source code
-3. **Include all necessary details** extracted from the code so the next LLM has complete information
+1. **Analyze the source code above** and extract ONLY the essential information for a simple flowchart diagram
+2. **Generate concise, token-optimized instructions** for another LLM to create the diagram WITHOUT the source code
+3. **Focus on clarity over completeness** - include only what's necessary for a clear, simple diagram
+4. **Minimize token count** - use bullet points, abbreviations, and efficient formatting
 
 
-### For Flowchart Diagram - Extract and Document:
+### For Flowchart Diagram - Extract Essentials:
 
-**Entry Points:**
-- Identify main entry point(s) of the application
-- Document initial setup or initialization steps
+**Extract:**
+- Main entry point and key processes (in order)
+- Important decision points (conditions)
+- Critical loops and I/O operations
 
-**Process Flow:**
-- List all major processes/functions in execution order
-- Document the sequence of operations in each process
-- Identify computational steps, data transformations, and business logic
-
-**Decision Points:**
-- List all conditional statements (if/else, switch cases)
-- Document the conditions being evaluated
-- Show alternative paths based on conditions
-
-**Loops and Iterations:**
-- Identify all loops (for, while, do-while)
-- Document loop conditions and iteration logic
-
-**Data I/O:**
-- Input operations: user input, file reads, API calls
-- Output operations: displays, file writes, API responses
-
-**Error Handling:**
-- Try-catch blocks and error handling paths
-- Validation points and failure scenarios
-
-**Interactions:**
-- User interaction points
-- System-to-system communication
-
-**Output Format:**
-Generate a detailed prompt that describes the complete flow from start to end with all decision points, loops, and error handling, formatted so another LLM can create the flowchart without seeing the source code.
+**Output:**
+Concise prompt with: start → main steps → decisions → end. List only key flow, omit minor details.
 
 
 
@@ -223,4 +199,4 @@ Generate a detailed prompt that describes the complete flow from start to end wi
 
 ## Summary
 
-**Your Task:** Analyze the codebase thoroughly and extract all relevant flowchart-specific information. Create a comprehensive, self-contained prompt that another LLM can use to generate an accurate flowchart diagram without needing to see the original source code. Ensure no critical information is lost in the extraction process.
+**Your Task:** Extract ONLY essential flowchart-specific information from the code. Generate a simple, token-efficient prompt for another LLM to create a basic flowchart diagram. Prioritize brevity and clarity - use abbreviations, bullet points, and minimal formatting. Keep the output as short as possible while maintaining diagram accuracy.
