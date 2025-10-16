@@ -1,0 +1,22 @@
+{
+  "path": ".",
+  "template": "generate-diagram-description.j2",
+  "output": "output/diagram-prompt.md",
+  "filter": "*.py",
+  "exclude": "__pycache__/*,venv/*,*.pyc,*.pyo,.git/*",
+  "line_number": true,
+  "suppress_comments": false,
+  "tokens": false,
+  "encoding": "cl100k_base",
+  "variables": {
+    "diagramType": "uml"
+  },
+  "description": "Configuration file for code2prompt execution",
+  "notes": [
+    "Change 'diagramType' to: uml, flowchart, sequence, or erd",
+    "Use 'path' as string for single path or array for multiple paths",
+    "Set 'tokens: true' to display token count information",
+    "Supported encodings: cl100k_base (GPT-4), p50k_base (GPT-3.5), r50k_base (Codex)"
+  ]
+}
+

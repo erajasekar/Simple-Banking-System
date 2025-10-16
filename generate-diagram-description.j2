@@ -1,0 +1,104 @@
+# System Architecture Analysis for Diagram Generation
+
+## Project Information
+- **Project Path**: {{ absolute_code_path }}
+- **Analysis Date**: Generated using code2prompt
+
+## Project Structure Overview
+
+```
+{{ source_tree }}
+```
+
+## Detailed Codebase Analysis
+
+### Files and Components
+
+{% for file in files %}
+---
+
+#### File: `{{ file.path }}`
+
+
+##### Content:
+
+{{ file.code }}
+
+{% endfor %}
+
+---
+
+## Instructions for LLM: Extract Key Information and Generate Concise Diagram Prompt
+
+**IMPORTANT**: Your task is NOT to create a diagram directly. Instead:
+
+1. **Analyze the source code above** and extract ONLY the essential information for a simple {{ diagramType }} diagram
+2. **Generate concise, token-optimized instructions** for another LLM to create the diagram WITHOUT the source code
+3. **Focus on clarity over completeness** - include only what's necessary for a clear, simple diagram
+4. **Minimize token count** - use bullet points, abbreviations, and efficient formatting
+
+**CRITICAL RULE**: 
+- **DO NOT make up, infer, or assume anything**
+- **ONLY include information that explicitly exists in the source code**
+- If something is not present in the code, DO NOT include it in your output
+- Extract facts directly from the code - no interpretation or assumptions
+
+{% if diagramType == "uml" %}
+### For UML Class Diagram - Extract Essentials:
+
+**Extract:**
+- Class names and key attributes (name: type)
+- Main methods (name, params, return type)
+- Primary relationships: inheritance, composition, key associations
+
+**Output:**
+Concise prompt listing: classes with core attributes/methods, relationship type between classes. Use abbreviated format to minimize tokens.
+{% endif %}
+
+{% if diagramType == "flowchart" %}
+### For Flowchart Diagram - Extract Essentials:
+
+**Extract:**
+- Main entry point and key processes (in order)
+- Important decision points (conditions)
+- Critical loops and I/O operations
+
+**Output:**
+Concise prompt with: start → main steps → decisions → end. List only key flow, omit minor details.
+{% endif %}
+
+{% if diagramType == "sequence" %}
+### For Sequence Diagram - Extract Essentials:
+
+**Extract:**
+- Main participants/actors (user, classes, systems)
+- Key interactions in order: actor → method → target
+- Important conditional flows or loops
+
+**Output:**
+Concise prompt: list participants, then interactions as "A → B: method()". Include only main flow.
+{% endif %}
+
+{% if diagramType == "erd" %}
+### For Entity Relationship Diagram - Extract Essentials:
+
+**Extract:**
+- Entity names with key attributes (name: type, mark PK/FK)
+- Relationships with cardinality (1:1, 1:N, M:N)
+
+**Output:**
+Concise prompt: entities list with attributes, then relationships as "Entity1 --[1:N]--> Entity2".
+{% endif %}
+
+---
+
+## Summary
+
+**Your Task:** Extract ONLY essential {{ diagramType }}-specific information that actually exists in the source code above. Generate a simple, token-efficient prompt for another LLM to create a basic {{ diagramType }} diagram. 
+
+**Remember:**
+- Extract only what's explicitly in the code - no assumptions or inferences
+- Prioritize brevity and clarity - use abbreviations, bullet points, minimal formatting
+- Keep output as short as possible while maintaining accuracy
+- If in doubt, exclude rather than make assumptions
+
