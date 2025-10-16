@@ -173,6 +173,54 @@ while running:
 
 ---
 
-## Diagram Generation Instructions
+## Instructions for LLM: Extract Information and Generate Diagram Prompt
 
-Based on the code analysis above, create a flowchart diagram:
+**IMPORTANT**: Your task is NOT to create a diagram directly. Instead:
+
+1. **Analyze the source code above** and extract all relevant information based on the diagram type
+2. **Generate comprehensive instructions** that another LLM can use to create the diagram WITHOUT having access to the source code
+3. **Include all necessary details** extracted from the code so the next LLM has complete information
+
+
+### For Flowchart Diagram - Extract and Document:
+
+**Entry Points:**
+- Identify main entry point(s) of the application
+- Document initial setup or initialization steps
+
+**Process Flow:**
+- List all major processes/functions in execution order
+- Document the sequence of operations in each process
+- Identify computational steps, data transformations, and business logic
+
+**Decision Points:**
+- List all conditional statements (if/else, switch cases)
+- Document the conditions being evaluated
+- Show alternative paths based on conditions
+
+**Loops and Iterations:**
+- Identify all loops (for, while, do-while)
+- Document loop conditions and iteration logic
+
+**Data I/O:**
+- Input operations: user input, file reads, API calls
+- Output operations: displays, file writes, API responses
+
+**Error Handling:**
+- Try-catch blocks and error handling paths
+- Validation points and failure scenarios
+
+**Interactions:**
+- User interaction points
+- System-to-system communication
+
+**Output Format:**
+Generate a detailed prompt that describes the complete flow from start to end with all decision points, loops, and error handling, formatted so another LLM can create the flowchart without seeing the source code.
+
+
+
+---
+
+## Summary
+
+**Your Task:** Analyze the codebase thoroughly and extract all relevant flowchart-specific information. Create a comprehensive, self-contained prompt that another LLM can use to generate an accurate flowchart diagram without needing to see the original source code. Ensure no critical information is lost in the extraction process.
