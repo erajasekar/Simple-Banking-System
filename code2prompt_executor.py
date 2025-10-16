@@ -5,15 +5,21 @@ This script executes code2prompt programmatically using the Python SDK.
 """
 
 import os
-import subprocess
 import sys
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 import json
 
+try:
+    from code2prompt_rs import Code2Prompt
+except ImportError:
+    print("Error: code2prompt_rs is not installed.")
+    print("Install it with: pip install code2prompt_rs")
+    sys.exit(1)
+
 
 class Code2PromptExecutor:
-    """Execute code2prompt programmatically with custom configuration."""
+    """Execute code2prompt programmatically with custom configuration using the Python SDK."""
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         """
@@ -22,13 +28,15 @@ class Code2PromptExecutor:
         Args:
             config: Configuration dictionary with options like:
                 - path: Path to analyze (required)
-                - template: Path to Jinja2 template file
+                - template: Path to Handlebars/Jinja2 template file
                 - output: Output file path
                 - filter: File patterns to include (e.g., "*.py,*.js")
                 - exclude: Patterns to exclude
                 - line_number: Add line numbers (bool)
                 - suppress_comments: Strip comments (bool)
                 - variables: Dict of template variables
+                - encoding: File encoding (default: utf-8)
+                - tokens: Display token count (bool)
         """
         self.config = config or {}
         self.validate_config()
@@ -48,98 +56,95 @@ class Code2PromptExecutor:
             if not template_path.exists():
                 raise FileNotFoundError(f"Template file does not exist: {template_path}")
     
-    def build_command(self) -> List[str]:
-        """Build the code2prompt command from configuration."""
-        cmd = ['code2prompt']
+    def _convert_config_to_sdk_params(self) -> Dict[str, Any]:
+        """
+        Convert our config format to the SDK's expected parameters.
+        
+        Returns:
+            Dictionary with SDK-compatible parameters
+        """
+        sdk_config = {}
         
         # Required: path
-        path = self.config['path']
-        if isinstance(path, list):
-            for p in path:
-                cmd.extend(['--path', str(p)])
-        else:
-            cmd.extend(['--path', str(path)])
+        sdk_config['path'] = str(self.config['path'])
         
-        # Optional: template
-        if self.config.get('template'):
-            cmd.extend(['--template', str(self.config['template'])])
-        
-        # Optional: output
-        if self.config.get('output'):
-            cmd.extend(['--output', str(self.config['output'])])
-        
-        # Optional: filter
+        # Include patterns (convert from 'filter' to 'include_patterns')
         if self.config.get('filter'):
-            cmd.extend(['--filter', self.config['filter']])
+            # Split comma-separated patterns
+            patterns = [p.strip() for p in self.config['filter'].split(',')]
+            sdk_config['include_patterns'] = patterns
         
-        # Optional: exclude
+        # Exclude patterns
         if self.config.get('exclude'):
-            cmd.extend(['--exclude', self.config['exclude']])
+            # Split comma-separated patterns
+            patterns = [p.strip() for p in self.config['exclude'].split(',')]
+            sdk_config['exclude_patterns'] = patterns
         
-        # Optional: line numbers
+        # Template path
+        if self.config.get('template'):
+            sdk_config['template_path'] = str(self.config['template'])
+        
+        # Line numbers
         if self.config.get('line_number'):
-            cmd.append('--line-number')
+            sdk_config['line_numbers'] = True
         
-        # Optional: suppress comments
+        # Suppress comments
         if self.config.get('suppress_comments'):
-            cmd.append('--suppress-comments')
+            sdk_config['suppress_comments'] = True
         
-        # Optional: encoding
+        # Encoding
         if self.config.get('encoding'):
-            cmd.extend(['--encoding', self.config['encoding']])
+            sdk_config['encoding'] = self.config['encoding']
         
-        # Optional: tokens (display token count)
-        if self.config.get('tokens'):
-            cmd.append('--tokens')
-        
-        # Optional: template variables
+        # Template variables
         if self.config.get('variables'):
-            for key, value in self.config['variables'].items():
-                cmd.extend(['--variable', f'{key}={value}'])
+            sdk_config['template_variables'] = self.config['variables']
         
-        return cmd
+        # Token display
+        if self.config.get('tokens'):
+            sdk_config['display_tokens'] = True
+        
+        return sdk_config
     
     def execute(self) -> str:
         """
-        Execute code2prompt and return the output.
+        Execute code2prompt using the Python SDK and return the output.
         
         Returns:
             The generated prompt as a string
         
         Raises:
-            subprocess.CalledProcessError: If code2prompt execution fails
+            Exception: If code2prompt execution fails
         """
-        cmd = self.build_command()
-        
-        print(f"Executing: {' '.join(cmd)}")
-        
         try:
-            # If output file is specified, code2prompt will write to file
-            # Otherwise, capture stdout
+            # Convert config to SDK parameters
+            sdk_params = self._convert_config_to_sdk_params()
+            
+            print(f"Executing Code2Prompt SDK with path: {sdk_params.get('path')}")
+            if sdk_params.get('include_patterns'):
+                print(f"  Include patterns: {sdk_params.get('include_patterns')}")
+            if sdk_params.get('exclude_patterns'):
+                print(f"  Exclude patterns: {sdk_params.get('exclude_patterns')}")
+            if sdk_params.get('template_path'):
+                print(f"  Template: {sdk_params.get('template_path')}")
+            
+            # Create Code2Prompt instance with SDK parameters
+            c2p = Code2Prompt(**sdk_params)
+            
+            # Generate the prompt
+            prompt = c2p.generate_prompt()
+            
+            # If output file is specified, write to file
             if self.config.get('output'):
-                result = subprocess.run(
-                    cmd,
-                    check=True,
-                    capture_output=True,
-                    text=True
-                )
                 output_file = Path(self.config['output'])
-                if output_file.exists():
-                    return output_file.read_text()
-                else:
-                    return result.stdout
-            else:
-                result = subprocess.run(
-                    cmd,
-                    check=True,
-                    capture_output=True,
-                    text=True
-                )
-                return result.stdout
+                output_file.parent.mkdir(parents=True, exist_ok=True)
+                output_file.write_text(prompt, encoding='utf-8')
+                print(f"  Output written to: {output_file}")
+            
+            return prompt
                 
-        except subprocess.CalledProcessError as e:
-            print(f"Error executing code2prompt: {e}")
-            print(f"stderr: {e.stderr}")
+        except Exception as e:
+            print(f"Error executing code2prompt SDK: {e}")
             raise
     
     def execute_with_template_vars(self, template_path: str, variables: Dict[str, str], output_path: Optional[str] = None) -> str:
@@ -147,7 +152,7 @@ class Code2PromptExecutor:
         Execute code2prompt with a specific template and variables.
         
         Args:
-            template_path: Path to the Jinja2 template file
+            template_path: Path to the Handlebars/Jinja2 template file
             variables: Dictionary of template variables
             output_path: Optional output file path
         

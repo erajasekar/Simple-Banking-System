@@ -1,8 +1,8 @@
 # Code2Prompt Requirements
 # Install with: pip install -r requirements.txt
 
-# Main package
-code2prompt>=0.8.1
+# Main package - Python SDK
+code2prompt_rs>=0.1.0
 
 # Optional: If you need to work with templates programmatically
 jinja2>=3.1.0

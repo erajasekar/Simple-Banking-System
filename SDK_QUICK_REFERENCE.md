@@ -1,0 +1,294 @@
+# Code2Prompt SDK Quick Reference
+
+## Installation
+
+```bash
+# Install the Python SDK
+pip install code2prompt_rs
+
+# Or use requirements.txt
+pip install -r requirements.txt
+```
+
+## Quick Start
+
+### Using the Executor (Recommended)
+
+```python
+from code2prompt_executor import Code2PromptExecutor
+
+# Basic usage
+config = {
+    'path': '.',
+    'filter': '*.py',
+    'exclude': '__pycache__/*',
+}
+
+executor = Code2PromptExecutor(config)
+prompt = executor.execute()
+print(prompt)
+```
+
+### Direct SDK Usage
+
+```python
+from code2prompt_rs import Code2Prompt
+
+# Simple
+c2p = Code2Prompt(path='.')
+prompt = c2p.generate_prompt()
+
+# With filters
+c2p = Code2Prompt(
+    path='.',
+    include_patterns=['*.py'],
+    exclude_patterns=['__pycache__/*']
+)
+prompt = c2p.generate_prompt()
+```
+
+## Common Patterns
+
+### Pattern 1: Generate Diagram Description
+
+```python
+from code2prompt_executor import Code2PromptExecutor
+
+config = {
+    'path': '.',
+    'template': 'generate-diagram-description.j2',
+    'output': 'output/diagram.md',
+    'filter': '*.py',
+    'variables': {'diagramType': 'uml'}
+}
+
+executor = Code2PromptExecutor(config)
+result = executor.execute()
+```
+
+### Pattern 2: Multiple File Types
+
+```python
+config = {
+    'path': '.',
+    'filter': '*.py,*.js,*.ts',  # Multiple types
+    'exclude': 'node_modules/*,__pycache__/*,*.pyc',
+    'line_number': True,
+}
+
+executor = Code2PromptExecutor(config)
+result = executor.execute()
+```
+
+### Pattern 3: With Template Variables
+
+```python
+executor = Code2PromptExecutor({'path': '.'})
+
+result = executor.execute_with_template_vars(
+    template_path='my-template.hbs',
+    variables={
+        'projectName': 'MyProject',
+        'author': 'John Doe',
+        'diagramType': 'sequence'
+    },
+    output_path='output/result.md'
+)
+```
+
+### Pattern 4: Different Diagram Types
+
+```python
+# UML Diagram
+executor.execute_with_template_vars(
+    template_path='generate-diagram-description.j2',
+    variables={'diagramType': 'uml'},
+    output_path='output/uml.md'
+)
+
+# Flowchart
+executor.execute_with_template_vars(
+    template_path='generate-diagram-description.j2',
+    variables={'diagramType': 'flowchart'},
+    output_path='output/flowchart.md'
+)
+
+# Sequence Diagram
+executor.execute_with_template_vars(
+    template_path='generate-diagram-description.j2',
+    variables={'diagramType': 'sequence'},
+    output_path='output/sequence.md'
+)
+
+# ERD
+executor.execute_with_template_vars(
+    template_path='generate-diagram-description.j2',
+    variables={'diagramType': 'erd'},
+    output_path='output/erd.md'
+)
+```
+
+## Configuration Options
+
+| Key | Type | Description | Example |
+|-----|------|-------------|---------|
+| `path` | str | Path to analyze (required) | `'.'` or `'/path/to/project'` |
+| `filter` | str | Comma-separated include patterns | `'*.py,*.js'` |
+| `exclude` | str | Comma-separated exclude patterns | `'node_modules/*,*.pyc'` |
+| `template` | str | Template file path | `'template.j2'` |
+| `output` | str | Output file path | `'output/result.md'` |
+| `line_number` | bool | Add line numbers | `True` |
+| `suppress_comments` | bool | Strip comments | `True` |
+| `encoding` | str | File encoding | `'utf-8'` |
+| `tokens` | bool | Display token count | `True` |
+| `variables` | dict | Template variables | `{'key': 'value'}` |
+
+## Filter Patterns
+
+### Include Patterns (filter)
+
+```python
+# Single type
+'filter': '*.py'
+
+# Multiple types
+'filter': '*.py,*.js,*.ts'
+
+# Specific files
+'filter': 'main.py,app.py'
+
+# With wildcards
+'filter': 'src/**/*.py'
+```
+
+### Exclude Patterns (exclude)
+
+```python
+# Common excludes
+'exclude': '__pycache__/*,*.pyc,*.pyo'
+
+# Multiple directories
+'exclude': 'node_modules/*,dist/*,build/*'
+
+# Test files
+'exclude': 'tests/*,*_test.py,test_*.py'
+
+# Combined
+'exclude': '__pycache__/*,node_modules/*,*.pyc,tests/*'
+```
+
+## Error Handling
+
+```python
+from code2prompt_executor import Code2PromptExecutor
+
+config = {'path': '.', 'filter': '*.py'}
+
+try:
+    executor = Code2PromptExecutor(config)
+    result = executor.execute()
+    print(f"✓ Success: {len(result)} characters")
+except FileNotFoundError as e:
+    print(f"✗ File not found: {e}")
+except ValueError as e:
+    print(f"✗ Invalid configuration: {e}")
+except Exception as e:
+    print(f"✗ Error: {e}")
+```
+
+## Testing
+
+```bash
+# Run the test suite
+python test_sdk_integration.py
+
+# Run the example script
+python code2prompt_executor.py
+```
+
+## Tips & Best Practices
+
+### 1. Always Specify Path
+```python
+# Good
+config = {'path': '.'}
+
+# Bad - will raise ValueError
+config = {}
+```
+
+### 2. Use Appropriate Filters
+```python
+# Good - specific filters
+'filter': '*.py,*.js'
+
+# Less optimal - too broad
+'filter': '*'
+```
+
+### 3. Exclude Build Artifacts
+```python
+# Good - exclude generated files
+'exclude': '__pycache__/*,node_modules/*,dist/*,build/*,*.pyc'
+```
+
+### 4. Use Templates for Consistency
+```python
+# Good - reusable template
+executor.execute_with_template_vars(
+    template_path='shared-template.j2',
+    variables={'project': 'MyApp'}
+)
+```
+
+### 5. Write Output to Files for Large Results
+```python
+# Good - write to file
+config = {
+    'path': '.',
+    'output': 'output/result.md'  # Large results
+}
+```
+
+## Common Issues
+
+### Issue: Module Not Found
+```bash
+pip install code2prompt_rs
+```
+
+### Issue: Template Not Found
+```python
+# Check if template exists
+from pathlib import Path
+if not Path('template.j2').exists():
+    print("Template not found!")
+```
+
+### Issue: Empty Result
+```python
+# Check your filters
+config = {
+    'path': '.',
+    'filter': '*.py',  # Make sure this matches your files
+}
+```
+
+## Performance Tips
+
+1. **Use specific filters** - Don't process unnecessary files
+2. **Exclude large directories** - Skip `node_modules/`, `dist/`, etc.
+3. **Write to files** - For large outputs, use `output` parameter
+4. **Reuse executor** - Create once, call multiple times with different templates
+
+## Next Steps
+
+- Read the [Migration Guide](SDK_MIGRATION_GUIDE.md) for detailed information
+- Check out the [Official Documentation](https://code2prompt.dev/docs/)
+- Run `python test_sdk_integration.py` to verify your setup
+- Explore [example_usage.py](example_usage.py) for more patterns
+
+---
+
+**Need Help?** Check the [Troubleshooting Section](SDK_MIGRATION_GUIDE.md#troubleshooting) in the Migration Guide.
+
