@@ -1,21 +1,16 @@
-#!/usr/bin/env python3
 """
 Code2Prompt Programmatic Executor
-This script executes code2prompt programmatically using the Python SDK.
+This script executes code2prompt programmatically using the CLI tool.
 """
 
 import os
 import sys
+import subprocess
+import shutil
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 import json
-
-try:
-    from code2prompt_rs import Code2Prompt
-except ImportError:
-    print("Error: code2prompt_rs is not installed.")
-    print("Install it with: pip install code2prompt_rs")
-    sys.exit(1)
+from code2prompt_rs import Code2Prompt
 
 
 class Code2PromptExecutor:
@@ -52,9 +47,9 @@ class Code2PromptExecutor:
         
         # Validate template if provided
         if self.config.get('template'):
-            template_path = Path(self.config['template'])
-            if not template_path.exists():
-                raise FileNotFoundError(f"Template file does not exist: {template_path}")
+            template = Path(self.config['template'])
+            if not template.exists():
+                raise FileNotFoundError(f"Template file does not exist: {template}")
     
     def _convert_config_to_sdk_params(self) -> Dict[str, Any]:
         """
@@ -82,7 +77,7 @@ class Code2PromptExecutor:
         
         # Template path
         if self.config.get('template'):
-            sdk_config['template_path'] = str(self.config['template'])
+            sdk_config['template'] = str(self.config['template'])
         
         # Line numbers
         if self.config.get('line_number'):
@@ -125,8 +120,8 @@ class Code2PromptExecutor:
                 print(f"  Include patterns: {sdk_params.get('include_patterns')}")
             if sdk_params.get('exclude_patterns'):
                 print(f"  Exclude patterns: {sdk_params.get('exclude_patterns')}")
-            if sdk_params.get('template_path'):
-                print(f"  Template: {sdk_params.get('template_path')}")
+            if sdk_params.get('template'):
+                print(f"  Template: {sdk_params.get('template')}")
             
             # Create Code2Prompt instance with SDK parameters
             c2p = Code2Prompt(**sdk_params)
@@ -147,19 +142,19 @@ class Code2PromptExecutor:
             print(f"Error executing code2prompt SDK: {e}")
             raise
     
-    def execute_with_template_vars(self, template_path: str, variables: Dict[str, str], output_path: Optional[str] = None) -> str:
+    def execute_with_template_vars(self, template: str, variables: Dict[str, str], output_path: Optional[str] = None) -> str:
         """
         Execute code2prompt with a specific template and variables.
         
         Args:
-            template_path: Path to the Handlebars/Jinja2 template file
+            template: Path to the Handlebars/Jinja2 template file
             variables: Dictionary of template variables
             output_path: Optional output file path
         
         Returns:
             The generated prompt
         """
-        self.config['template'] = template_path
+        self.config['template'] = template
         self.config['variables'] = variables
         
         if output_path:
@@ -184,7 +179,7 @@ def main():
         'exclude': '__pycache__/*,*.pyc',
         'line_number': True,
         'variables': {
-            'diagramType': 'uml'  # Can be: uml, flowchart, sequence, erd
+            'diagramType': 'flowchart'  # Can be: uml, flowchart, sequence, erd
         }
     }
     

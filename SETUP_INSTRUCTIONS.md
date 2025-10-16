@@ -236,8 +236,8 @@ pip install code2prompt
 ```python
 from pathlib import Path
 
-template_path = Path(__file__).parent / 'generate-diagram-description.j2'
-config = {'template': str(template_path), ...}
+template = Path(__file__).parent / 'generate-diagram-description.j2'
+config = {'template': str(template), ...}
 ```
 
 ### Issue: "No files found"

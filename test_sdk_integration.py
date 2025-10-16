@@ -41,9 +41,9 @@ def test_with_template():
     print("=" * 80)
     
     # Check if template exists
-    template_path = Path('generate-diagram-description.j2')
-    if not template_path.exists():
-        print(f"⚠ Template not found: {template_path}")
+    template = Path('generate-diagram-description.j2')
+    if not template.exists():
+        print(f"⚠ Template not found: {template}")
         print("  Skipping template test")
         return True
     
@@ -82,9 +82,9 @@ def test_convenience_method():
     print("Test 3: Convenience Method")
     print("=" * 80)
     
-    template_path = Path('generate-diagram-description.j2')
-    if not template_path.exists():
-        print(f"⚠ Template not found: {template_path}")
+    template = Path('generate-diagram-description.j2')
+    if not template.exists():
+        print(f"⚠ Template not found: {template}")
         print("  Skipping convenience method test")
         return True
     
@@ -97,7 +97,7 @@ def test_convenience_method():
     try:
         executor = Code2PromptExecutor(config)
         result = executor.execute_with_template_vars(
-            template_path='generate-diagram-description.j2',
+            template='generate-diagram-description.j2',
             variables={'diagramType': 'flowchart'},
             output_path='output/sdk-convenience-test.md'
         )

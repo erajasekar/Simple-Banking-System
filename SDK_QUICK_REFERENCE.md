@@ -86,7 +86,7 @@ result = executor.execute()
 executor = Code2PromptExecutor({'path': '.'})
 
 result = executor.execute_with_template_vars(
-    template_path='my-template.hbs',
+    template='my-template.hbs',
     variables={
         'projectName': 'MyProject',
         'author': 'John Doe',
@@ -101,28 +101,28 @@ result = executor.execute_with_template_vars(
 ```python
 # UML Diagram
 executor.execute_with_template_vars(
-    template_path='generate-diagram-description.j2',
+    template='generate-diagram-description.j2',
     variables={'diagramType': 'uml'},
     output_path='output/uml.md'
 )
 
 # Flowchart
 executor.execute_with_template_vars(
-    template_path='generate-diagram-description.j2',
+    template='generate-diagram-description.j2',
     variables={'diagramType': 'flowchart'},
     output_path='output/flowchart.md'
 )
 
 # Sequence Diagram
 executor.execute_with_template_vars(
-    template_path='generate-diagram-description.j2',
+    template='generate-diagram-description.j2',
     variables={'diagramType': 'sequence'},
     output_path='output/sequence.md'
 )
 
 # ERD
 executor.execute_with_template_vars(
-    template_path='generate-diagram-description.j2',
+    template='generate-diagram-description.j2',
     variables={'diagramType': 'erd'},
     output_path='output/erd.md'
 )
@@ -236,7 +236,7 @@ config = {}
 ```python
 # Good - reusable template
 executor.execute_with_template_vars(
-    template_path='shared-template.j2',
+    template='shared-template.j2',
     variables={'project': 'MyApp'}
 )
 ```

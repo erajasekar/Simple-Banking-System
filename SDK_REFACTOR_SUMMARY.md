@@ -64,7 +64,7 @@ def execute(self) -> str:
 |----------------|---------------|----------------|
 | `filter: "*.py,*.js"` | `include_patterns: ["*.py", "*.js"]` | Split by comma |
 | `exclude: "*.pyc"` | `exclude_patterns: ["*.pyc"]` | Split by comma |
-| `template: "x.j2"` | `template_path: "x.j2"` | Direct mapping |
+| `template: "x.j2"` | `template: "x.j2"` | Direct mapping |
 | `line_number: True` | `line_numbers: True` | Direct mapping |
 | `variables: {...}` | `template_variables: {...}` | Direct mapping |
 

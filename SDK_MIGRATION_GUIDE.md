@@ -60,7 +60,7 @@ Under the hood, these mappings are now applied:
 | `path` | `path` | string | `'.'` |
 | `filter` | `include_patterns` | list | `['*.py', '*.js']` |
 | `exclude` | `exclude_patterns` | list | `['__pycache__/*']` |
-| `template` | `template_path` | string | `'template.j2'` |
+| `template` | `template` | string | `'template.j2'` |
 | `line_number` | `line_numbers` | bool | `True` |
 | `suppress_comments` | `suppress_comments` | bool | `True` |
 | `encoding` | `encoding` | string | `'utf-8'` |
@@ -106,7 +106,7 @@ result = executor.execute()
 executor = Code2PromptExecutor({'path': '.', 'filter': '*.py'})
 
 result = executor.execute_with_template_vars(
-    template_path='generate-diagram-description.j2',
+    template='generate-diagram-description.j2',
     variables={'diagramType': 'flowchart'},
     output_path='output/flowchart.md'
 )
@@ -131,7 +131,7 @@ prompt = c2p.generate_prompt()
 # With template
 c2p = Code2Prompt(
     path='.',
-    template_path='my_template.hbs',
+    template='my_template.hbs',
     template_variables={'key': 'value'}
 )
 prompt = c2p.generate_prompt()
