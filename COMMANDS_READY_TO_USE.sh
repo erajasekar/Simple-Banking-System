@@ -40,6 +40,13 @@ code2prompt . \
 echo "✅ All prompts generated successfully!"
 echo "📁 Check the output/ directory for results"
 
+
+code2prompt . \
+  --include "bank.py, client.py, main.py" \
+  --exclude "__pycache__/" \
+  --template generate-diagram-description-flowchart.hbs \
+  --output-file output/detailed-analysis.md
+
 # ============================================
 # COPY TO CLIPBOARD (macOS)
 # ============================================

@@ -202,7 +202,7 @@ def main():
     
     config2 = {
         'path': '.',
-        'template': 'generate-diagram-description.j2',
+        'template': 'generate-diagram-description-flowchart.j2',
         'output': 'output/flowchart-analysis.md',
         'filter': '*.py',
         'variables': {

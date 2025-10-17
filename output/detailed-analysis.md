@@ -177,7 +177,7 @@ while running:
 
 **IMPORTANT**: Your task is NOT to create a diagram directly. Instead:
 
-1. **Analyze the source code above** and extract ONLY the essential information for a simple flochart diagram
+1. **Analyze the source code above** and extract ONLY the essential information for a simple flowchart diagram
 2. **Generate concise, token-optimized instructions** for another LLM to create the diagram WITHOUT the source code
 3. **Focus on clarity over completeness** - include only what's necessary for a clear, simple diagram
 4. **Minimize token count** - use bullet points, abbreviations, and efficient formatting
@@ -189,14 +189,20 @@ while running:
 - Extract facts directly from the code - no interpretation or assumptions
 
 
+### For Flowchart Diagram - Extract Essentials:
 
+**Extract:**
+- Main entry point and key processes (in order)
+- Important decision points (conditions)
+- Critical loops and I/O operations
 
-
+**Output:**
+Concise prompt with: start → main steps → decisions → end. List only key flow, omit minor details.
 ---
 
 ## Summary
 
-**Your Task:** Extract ONLY essential flochart-specific information that actually exists in the source code above. Generate a simple, token-efficient prompt for another LLM to create a basic flochart diagram. 
+**Your Task:** Extract ONLY essential flowchart-specific information that actually exists in the source code above. Generate a simple, token-efficient prompt for another LLM to create a basic flowchart diagram. 
 
 **Remember:**
 - Extract only what's explicitly in the code - no assumptions or inferences
