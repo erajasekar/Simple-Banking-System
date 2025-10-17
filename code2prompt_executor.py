@@ -118,19 +118,23 @@ class Code2PromptExecutor:
             c2p = Code2Prompt(**sdk_params)
             
             # Generate the prompt, passing template if provided
+            # The generate() method returns a RenderedPrompt object with .prompt property
             if self.config.get('template'):
-                prompt = c2p.generate(template=str(self.config['template']))
+                rendered = c2p.generate(template=str(self.config['template']))
             else:
-                prompt = c2p.generate()
+                rendered = c2p.generate()
+            
+            # Extract the prompt string from the RenderedPrompt object
+            prompt_text = rendered.prompt
             
             # If output file is specified, write to file
             if self.config.get('output'):
                 output_file = Path(self.config['output'])
                 output_file.parent.mkdir(parents=True, exist_ok=True)
-                output_file.write_text(prompt, encoding='utf-8')
+                output_file.write_text(prompt_text, encoding='utf-8')
                 print(f"  Output written to: {output_file}")
             
-            return prompt
+            return prompt_text
                 
         except Exception as e:
             print(f"Error executing code2prompt SDK: {e}")
@@ -145,7 +149,7 @@ class Code2PromptExecutor:
             output_path: Optional output file path
         
         Returns:
-            The generated prompt
+            The generated prompt as a string
         """
         self.config['template'] = template
         
@@ -158,32 +162,7 @@ class Code2PromptExecutor:
 def main():
     """Example usage of Code2PromptExecutor."""
     
-    # Example 1: Basic usage with template
-    print("=" * 80)
-    print("Example 1: Generate diagram description with custom template")
-    print("=" * 80)
-    
-    config = {
-        'path': '.',  # Current directory
-        'template': 'generate-diagram-description.j2',
-        'output': 'output/diagram-analysis.md',
-        'filter': 'bank.py, client.py, main.py',  # Only Python files
-        'exclude': '__pycache__/*,*.pyc',
-        'line_number': True
-    }
-    
-    try:
-        executor = Code2PromptExecutor(config)
-        result = executor.execute()
-        print(f"\n✓ Successfully generated prompt")
-        print(f"  Output saved to: {config['output']}")
-        print(f"  Length: {len(result)} characters")
-    except Exception as e:
-        print(f"\n✗ Error: {e}")
-        return 1
-    
-    print()
-    
+   
     # Example 2: Different diagram types
     print("=" * 80)
     print("Example 2: Generate flowchart description")
@@ -199,7 +178,7 @@ def main():
     try:
         executor2 = Code2PromptExecutor(config2)
         result2 = executor2.execute()
-        print(f"\n✓ Successfully generated flowchart prompt")
+        print(f"\n✓ Successfully generated flowchart prompt: {result2}")
         print(f"  Output saved to: {config2['output']}")
     except Exception as e:
         print(f"\n✗ Error: {e}")
