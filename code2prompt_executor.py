@@ -29,7 +29,6 @@ class Code2PromptExecutor:
                 - exclude: Patterns to exclude
                 - line_number: Add line numbers (bool)
                 - suppress_comments: Strip comments (bool)
-                - variables: Dict of template variables
                 - encoding: File encoding (default: utf-8)
                 - tokens: Display token count (bool)
         """
@@ -75,10 +74,6 @@ class Code2PromptExecutor:
             patterns = [p.strip() for p in self.config['exclude'].split(',')]
             sdk_config['exclude_patterns'] = patterns
         
-        # Template path
-        if self.config.get('template'):
-            sdk_config['template'] = str(self.config['template'])
-        
         # Line numbers
         if self.config.get('line_number'):
             sdk_config['line_numbers'] = True
@@ -90,10 +85,6 @@ class Code2PromptExecutor:
         # Encoding
         if self.config.get('encoding'):
             sdk_config['encoding'] = self.config['encoding']
-        
-        # Template variables
-        if self.config.get('variables'):
-            sdk_config['template_variables'] = self.config['variables']
         
         # Token display
         if self.config.get('tokens'):
@@ -120,14 +111,17 @@ class Code2PromptExecutor:
                 print(f"  Include patterns: {sdk_params.get('include_patterns')}")
             if sdk_params.get('exclude_patterns'):
                 print(f"  Exclude patterns: {sdk_params.get('exclude_patterns')}")
-            if sdk_params.get('template'):
-                print(f"  Template: {sdk_params.get('template')}")
+            if self.config.get('template'):
+                print(f"  Template: {self.config.get('template')}")
             
             # Create Code2Prompt instance with SDK parameters
             c2p = Code2Prompt(**sdk_params)
             
-            # Generate the prompt
-            prompt = c2p.generate_prompt()
+            # Generate the prompt, passing template if provided
+            if self.config.get('template'):
+                prompt = c2p.generate(template=str(self.config['template']))
+            else:
+                prompt = c2p.generate()
             
             # If output file is specified, write to file
             if self.config.get('output'):
@@ -142,20 +136,18 @@ class Code2PromptExecutor:
             print(f"Error executing code2prompt SDK: {e}")
             raise
     
-    def execute_with_template_vars(self, template: str, variables: Dict[str, str], output_path: Optional[str] = None) -> str:
+    def execute_with_template(self, template: str, output_path: Optional[str] = None) -> str:
         """
-        Execute code2prompt with a specific template and variables.
+        Execute code2prompt with a specific template.
         
         Args:
             template: Path to the Handlebars/Jinja2 template file
-            variables: Dictionary of template variables
             output_path: Optional output file path
         
         Returns:
             The generated prompt
         """
         self.config['template'] = template
-        self.config['variables'] = variables
         
         if output_path:
             self.config['output'] = output_path
@@ -175,12 +167,9 @@ def main():
         'path': '.',  # Current directory
         'template': 'generate-diagram-description.j2',
         'output': 'output/diagram-analysis.md',
-        'filter': '*.py',  # Only Python files
+        'filter': 'bank.py, client.py, main.py',  # Only Python files
         'exclude': '__pycache__/*,*.pyc',
-        'line_number': True,
-        'variables': {
-            'diagramType': 'flowchart'  # Can be: uml, flowchart, sequence, erd
-        }
+        'line_number': True
     }
     
     try:
@@ -204,10 +193,7 @@ def main():
         'path': '.',
         'template': 'generate-diagram-description-flowchart.j2',
         'output': 'output/flowchart-analysis.md',
-        'filter': '*.py',
-        'variables': {
-            'diagramType': 'flowchart'
-        }
+        'filter': '*.py'
     }
     
     try:
