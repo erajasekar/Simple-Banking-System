@@ -1,0 +1,139 @@
+# High-Level System Architecture Analysis
+
+## Project Information
+- **Project Path**: {{absolute_code_path}}
+- **Analysis Date**: Generated using code2prompt
+
+## Project Structure Overview
+
+```
+{{source_tree}}
+```
+
+## Detailed Codebase Analysis
+
+### Files and Components
+
+{{#each files}}
+---
+
+#### File: `{{path}}`
+
+
+##### Content:
+
+{{code}}
+
+{{/each}}
+
+---
+
+## Instructions for LLM: Generate High-Level Architecture Explanation
+
+You are tasked with explaining to a principal software engineer how to draw the best and most accurate system design diagram / architecture of this project. This explanation should be tailored to the specific project's purpose and structure.
+
+### Phase 1: Analyze and Explain Architecture
+
+Carefully analyze the file tree and source code provided above. Follow these steps:
+
+1. **Identify the project type and purpose:**
+   - Examine the file structure and code to determine if this is a full-stack application, CLI tool, open-source library, API service, compiler, or another type of software
+   - Look for key indicators such as project patterns, main entry points, dependencies, and architectural choices
+   - Identify the core functionality and main use cases
+
+2. **Analyze the file structure:**
+   - Pay attention to top-level directories and their names (e.g., "frontend", "backend", "src", "lib", "tests", "api")
+   - Identify patterns in the directory structure that indicate architectural choices (e.g., MVC pattern, microservices, layered architecture)
+   - Note any configuration files, build scripts, or deployment-related files
+   - Look for separation of concerns in the directory organization
+
+3. **Identify main system components:**
+   - Determine the major architectural components (e.g., frontend, backend, database layer, external services, core modules)
+   - **Focus on components, not individual classes** - group related files and directories into logical architectural units
+   - Aim for 5-10 major components that represent the system's high-level structure
+   - Map each component to its corresponding directories and files in the file tree
+
+4. **Determine component relationships:**
+   - Identify how components interact and depend on each other
+   - Note data flow patterns between components
+   - Highlight entry points and main execution paths
+   - Identify any external dependencies or services
+
+5. **Explain how to create the architecture diagram:**
+   Based on your analysis, provide clear instructions that include:
+   
+   a. **Main Components**: List the primary architectural components with brief descriptions of their purpose
+   
+   b. **Component Interactions**: Describe the relationships and data flow between components
+   
+   c. **Architectural Patterns**: Highlight any important design patterns or architectural principles used
+   
+   d. **Key Technologies**: Note relevant technologies, frameworks, or libraries that play a significant role in the architecture
+   
+   e. **Diagram Guidelines**: Provide specific guidance for the {{diagramType}} diagram format
+
+### Phase 2: Component-to-File Mapping
+
+After explaining the architecture, create a mapping of each major component to its corresponding files and directories:
+
+**Guidelines:**
+1. Focus on major components identified in your architecture explanation
+2. Map components to their primary directories and key files
+3. Be specific - use actual paths from the file tree provided
+4. If a component spans multiple directories, list the main ones
+5. Only include mappings that are clearly evident from the file structure
+
+**Format:**
+```
+<component_mapping>
+1. [Component Name]: [File/Directory Path]
+2. [Component Name]: [File/Directory Path]
+...
+</component_mapping>
+```
+
+---
+
+## Critical Guidelines
+
+**IMPORTANT PRINCIPLES:**
+
+1. **High-Level Focus**: 
+   - Focus on architectural components, NOT individual classes or functions
+   - Separate the project into logical architectural layers or modules
+   - Aim for simplicity and clarity over exhaustive completeness
+
+2. **Evidence-Based Analysis**:
+   - Base your analysis ONLY on what exists in the provided file tree and source code
+   - Do NOT make assumptions or infer features that aren't evident
+   - If something isn't clear from the code, don't include it
+
+3. **Component Thinking**:
+   - Think in terms of "components" (e.g., Authentication Module, API Layer, Database Service)
+   - NOT in terms of individual classes or files (e.g., UserController, DatabaseHelper)
+
+4. **Tailored Approach**:
+   - For full-stack applications: Emphasize frontend/backend separation, API layers, database interactions
+   - For CLI tools: Focus on command flow, core functionality, extensibility
+   - For libraries: Highlight public API, internal modules, extension points
+   - For compilers/interpreters: Show compilation stages, parsers, intermediate representations
+
+5. **Clarity and Simplicity**:
+   - Don't overthink - separating the project into clear components is the goal
+   - Use descriptive component names that reflect their architectural role
+   - Keep explanations concise but informative
+
+---
+
+## Your Task
+
+Provide a comprehensive explanation within `<explanation>` tags that:
+1. Identifies the project type and purpose
+2. Lists the main architectural components (5-10 major components)
+3. Describes component interactions and data flow
+4. Highlights architectural patterns and key technologies
+5. Provides specific guidance for creating a high-level {{diagramType}} diagram
+
+Then provide the component-to-file mapping within `<component_mapping>` tags.
+
+**Remember**: Focus on architectural significance, not implementation details. The goal is to create a clear, high-level understanding of the system's structure.
