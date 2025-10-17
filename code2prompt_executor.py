@@ -12,7 +12,7 @@ from typing import Optional, List, Dict, Any
 import json
 from code2prompt_rs import Code2Prompt
 
-
+# link to source https://github.com/mufeedvh/code2prompt/blob/main/crates/code2prompt-python/python-sdk/code2prompt_rs/code2prompt.py
 class Code2PromptExecutor:
     """Execute code2prompt programmatically with custom configuration using the Python SDK."""
     
