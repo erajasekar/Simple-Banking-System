@@ -98,7 +98,7 @@ class Code2PromptExecutor:
         Args:
             config: Configuration dictionary with options like:
                 - path: Path to analyze (required)
-                - template: Path to Handlebars/Jinja2 template file
+                - template: Path to Handlebars template file (.hbs)
                 - output: Output file path
                 - filter: File patterns to include (e.g., "*.py,*.js")
                 - exclude: Patterns to exclude
@@ -181,10 +181,6 @@ class Code2PromptExecutor:
             # Convert config to SDK parameters
             sdk_params = self._convert_config_to_sdk_params()
             
-            print(f"RAJA DEBUG: Starting execute() method")
-            print(f"RAJA DEBUG: Config = {self.config}")
-            print(f"RAJA DEBUG: SDK params = {sdk_params}")
-            
             print(f"Executing Code2Prompt SDK with path: {sdk_params.get('path')}")
             if sdk_params.get('include_patterns'):
                 print(f"  Include patterns: {sdk_params.get('include_patterns')}")
@@ -192,78 +188,35 @@ class Code2PromptExecutor:
                 print(f"  Exclude patterns: {sdk_params.get('exclude_patterns')}")
             if self.config.get('template'):
                 print(f"  Template: {self.config.get('template')}")
-                print(f"RAJA DEBUG: Template path exists: {Path(self.config['template']).exists()}")
-                print(f"RAJA DEBUG: Template absolute path: {Path(self.config['template']).absolute()}")
             
             # Create Code2Prompt instance with SDK parameters
-            print(f"RAJA DEBUG: Creating Code2Prompt instance")
             c2p = Code2Prompt(**sdk_params)
-            print(f"RAJA DEBUG: Code2Prompt instance created successfully")
             
             # Generate the prompt using the SDK
             # The generate() method returns a RenderedPrompt object with .prompt attribute
-            print(f"RAJA DEBUG: Calling generate() method")
             if self.config.get('template'):
                 template_path = Path(self.config['template'])
-                print(f"RAJA DEBUG: Generating with template: {template_path}")
                 
                 # Read the template content as a string (SDK expects template content, not path)
                 template_content = template_path.read_text(encoding='utf-8')
-                print(f"RAJA DEBUG: Template loaded, length: {len(template_content)} chars")
-                
-                # Check if it's a Jinja2 template and suggest using Handlebars
-                if template_path.suffix == '.j2':
-                    print(f"RAJA DEBUG: Warning - .j2 template detected. SDK uses Handlebars by default.")
-                    print(f"RAJA DEBUG: Consider using .hbs version if available: {template_path.with_suffix('.hbs')}")
-                    
-                    # Check if .hbs version exists
-                    hbs_template = template_path.with_suffix('.hbs')
-                    if hbs_template.exists():
-                        print(f"RAJA DEBUG: Found .hbs version, using that instead")
-                        template_content = hbs_template.read_text(encoding='utf-8')
-                        template_path = hbs_template
                 
                 # Generate with template content
                 rendered = c2p.generate(template=template_content)
-                print(f"RAJA DEBUG: Generate completed with template")
                 prompt_text = rendered.prompt
             else:
-                print(f"RAJA DEBUG: Generating without template")
                 rendered = c2p.generate()
-                print(f"RAJA DEBUG: Generate completed without template")
                 prompt_text = rendered.prompt
-            
-            print(f"RAJA DEBUG: Prompt text type: {type(prompt_text)}")
-            print(f"RAJA DEBUG: Prompt text is string: {isinstance(prompt_text, str)}")
-            print(f"RAJA DEBUG: Prompt text length: {len(prompt_text)}")
-            print(f"RAJA DEBUG: First 200 chars of prompt: {prompt_text[:200]}")
-            print(f"RAJA DEBUG: Last 200 chars of prompt: {prompt_text[-200:]}")
             
             # If output file is specified, write to file
             if self.config.get('output'):
                 output_file = Path(self.config['output'])
                 output_file.parent.mkdir(parents=True, exist_ok=True)
-                
-                print(f"RAJA DEBUG: Writing to output file: {output_file}")
-                print(f"RAJA DEBUG: About to write {len(prompt_text)} characters")
-                
                 output_file.write_text(prompt_text, encoding='utf-8')
-                
-                print(f"RAJA DEBUG: File written successfully")
-                print(f"RAJA DEBUG: Verifying file contents...")
-                verification = output_file.read_text(encoding='utf-8')
-                print(f"RAJA DEBUG: File contains {len(verification)} characters")
-                print(f"RAJA DEBUG: File first 200 chars: {verification[:200]}")
-                
                 print(f"  Output written to: {output_file}")
             
             return prompt_text
                 
         except Exception as e:
-            print(f"RAJA DEBUG: Exception caught: {type(e).__name__}")
-            print(f"RAJA DEBUG: Exception message: {str(e)}")
-            import traceback
-            print(f"RAJA DEBUG: Traceback:\n{traceback.format_exc()}")
             print(f"Error executing code2prompt SDK: {e}")
             raise
     
@@ -272,7 +225,7 @@ class Code2PromptExecutor:
         Execute code2prompt with a specific template.
         
         Args:
-            template: Path to the Handlebars/Jinja2 template file
+            template: Path to the Handlebars template file (.hbs)
             output_path: Optional output file path
         
         Returns:
@@ -297,7 +250,7 @@ def main():
     
     config2 = {
         'path': '.',
-        'template': 'generate-diagram-description-flowchart.j2',
+        'template': 'generate-diagram-description-flowchart.hbs',
         'output': 'output/flowchart-analysis.md',
         'filter': '*.py'
     }
