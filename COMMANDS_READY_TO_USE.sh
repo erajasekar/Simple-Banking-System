@@ -41,11 +41,35 @@ echo "✅ All prompts generated successfully!"
 echo "📁 Check the output/ directory for results"
 
 
+# Generate flowchart diagram prompt
 code2prompt . \
   --include "bank.py, client.py, main.py" \
   --exclude "__pycache__/" \
   --template generate-diagram-description-flowchart.hbs \
-  --output-file output/detailed-analysis.md
+  --output-file output/flowchart-analysis.md
+
+# Generate sequence diagram prompt  
+code2prompt . \
+  --include "bank.py, client.py, main.py" \
+  --exclude "__pycache__/" \
+  --template generate-diagram-description-sequence.hbs \
+  --output-file output/sequence-analysis.md
+
+# Generate UML class diagram prompt
+code2prompt . \
+  --include "bank.py, client.py, main.py" \
+  --exclude "__pycache__/" \
+  --template generate-diagram-description-uml.hbs \
+  --output-file output/uml-analysis.md
+
+# Generate ERD diagram prompt
+code2prompt . \
+  --include "bank.py, client.py, main.py" \
+  --exclude "__pycache__/" \
+  --template generate-diagram-description-erd.hbs \
+  --output-file output/erd-analysis.md
+
+
 
 # ============================================
 # COPY TO CLIPBOARD (macOS)
