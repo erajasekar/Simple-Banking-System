@@ -1,0 +1,70 @@
+# System Architecture Analysis for Diagram Generation
+
+## Project Information
+- **Project Path**: {{absolute_code_path}}
+- **Analysis Date**: Generated using code2prompt
+
+## Project Structure Overview
+
+```
+{{source_tree}}
+```
+
+## Detailed Codebase Analysis
+
+### Files and Components
+
+{{#each files}}
+---
+
+#### File: `{{path}}`
+
+
+##### Content:
+
+{{code}}
+
+{{/each}}
+
+---
+
+## Instructions for LLM: Extract Key Information and Generate Concise Diagram Prompt
+
+**IMPORTANT**: Your task is NOT to create a diagram directly. Instead:
+
+1. **Analyze the source code above** and extract ONLY the essential information for a simple network architecture diagram
+2. **Generate concise, token-optimized instructions** for another LLM to create the diagram WITHOUT the source code
+3. **Focus on clarity over completeness** - include only what's necessary for a clear, simple diagram
+4. **Minimize token count** - use bullet points, abbreviations, and efficient formatting
+
+**CRITICAL RULE**: 
+- **DO NOT make up, infer, or assume anything**
+- **ONLY include information that explicitly exists in the source code**
+- If something is not present in the code, DO NOT include it in your output
+- Extract facts directly from the code - no interpretation or assumptions
+
+
+### For Network Architecture Diagram - Extract Essentials:
+
+**Extract:**
+- Network components (servers, clients, load balancers, proxies, firewalls, routers)
+- Network topology and zones (DMZ, internal, external)
+- Connection protocols (HTTP, HTTPS, TCP, UDP, WebSocket, gRPC)
+- IP addresses, ports, and endpoints if explicitly defined
+- Security boundaries and authentication points
+- Network flows and communication paths
+
+**Output:**
+Concise prompt with: network nodes, connections with protocols/ports, security zones. Format as "Node A --[protocol:port]--> Node B".
+---
+
+## Summary
+
+**Your Task:** Extract ONLY essential network architecture information that actually exists in the source code above. Generate a simple, token-efficient prompt for another LLM to create a basic network architecture diagram. 
+
+**Remember:**
+- Extract only what's explicitly in the code - no assumptions or inferences
+- Prioritize brevity and clarity - use abbreviations, bullet points, minimal formatting
+- Keep output as short as possible while maintaining accuracy
+- If in doubt, exclude rather than make assumptions
+
