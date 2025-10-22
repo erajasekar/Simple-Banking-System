@@ -69,6 +69,20 @@ code2prompt . \
   --template generate-diagram-description-erd.hbs \
   --output-file output/erd-analysis.md
 
+# Generate system architecture diagram prompt
+code2prompt . \
+  --include "bank.py, client.py, main.py" \
+  --exclude "__pycache__/" \
+  --template generate-diagram-description-system-architecture.hbs \
+  --output-file output/system-architecture-analysis.md
+
+# Generate network architecture diagram prompt  
+code2prompt . \
+  --include "bank.py, client.py, main.py" \
+  --exclude "__pycache__/" \
+  --template generate-diagram-description-network-architecture.hbs \
+  --output-file output/network-architecture-analysis.md
+
 
 
 # ============================================

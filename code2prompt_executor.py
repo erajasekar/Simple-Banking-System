@@ -21,16 +21,16 @@ class Code2PromptExecutor:
         Initialize the Code2Prompt executor.
         
         Args:
-            config: Configuration dictionary with options like:
+            config: Configuration dictionary with SDK-compatible options:
                 - path: Path to analyze (required)
                 - template: Path to Handlebars template file (.hbs)
                 - output: Output file path
-                - filter: File patterns to include (e.g., "*.py,*.js")
-                - exclude: Patterns to exclude
-                - line_number: Add line numbers (bool)
+                - include_patterns: List of file patterns to include (e.g., ["*.py", "*.js"])
+                - exclude_patterns: List of patterns to exclude
+                - line_numbers: Add line numbers (bool)
                 - suppress_comments: Strip comments (bool)
                 - encoding: File encoding (default: utf-8)
-                - tokens: Display token count (bool)
+                - display_tokens: Display token count (bool)
         """
         self.config = config or {}
         self.validate_config()
@@ -50,9 +50,10 @@ class Code2PromptExecutor:
             if not template.exists():
                 raise FileNotFoundError(f"Template file does not exist: {template}")
     
-    def _convert_config_to_sdk_params(self) -> Dict[str, Any]:
+    def _get_sdk_params(self) -> Dict[str, Any]:
         """
-        Convert our config format to the SDK's expected parameters.
+        Get SDK parameters directly from config.
+        Config keys now match SDK expectations, so no conversion needed.
         
         Returns:
             Dictionary with SDK-compatible parameters
@@ -62,33 +63,19 @@ class Code2PromptExecutor:
         # Required: path
         sdk_config['path'] = str(self.config['path'])
         
-        # Include patterns (convert from 'filter' to 'include_patterns')
-        if self.config.get('filter'):
-            # Split comma-separated patterns
-            patterns = [p.strip() for p in self.config['filter'].split(',')]
-            sdk_config['include_patterns'] = patterns
+        # Copy SDK-compatible keys directly
+        sdk_keys = [
+            'include_patterns',
+            'exclude_patterns', 
+            'line_numbers',
+            'suppress_comments',
+            'encoding',
+            'display_tokens'
+        ]
         
-        # Exclude patterns
-        if self.config.get('exclude'):
-            # Split comma-separated patterns
-            patterns = [p.strip() for p in self.config['exclude'].split(',')]
-            sdk_config['exclude_patterns'] = patterns
-        
-        # Line numbers
-        if self.config.get('line_number'):
-            sdk_config['line_numbers'] = True
-        
-        # Suppress comments
-        if self.config.get('suppress_comments'):
-            sdk_config['suppress_comments'] = True
-        
-        # Encoding
-        if self.config.get('encoding'):
-            sdk_config['encoding'] = self.config['encoding']
-        
-        # Token display
-        if self.config.get('tokens'):
-            sdk_config['display_tokens'] = True
+        for key in sdk_keys:
+            if key in self.config:
+                sdk_config[key] = self.config[key]
         
         return sdk_config
     
@@ -103,8 +90,8 @@ class Code2PromptExecutor:
             Exception: If code2prompt execution fails
         """
         try:
-            # Convert config to SDK parameters
-            sdk_params = self._convert_config_to_sdk_params()
+            # Get SDK parameters directly from config
+            sdk_params = self._get_sdk_params()
             
             print(f"Executing Code2Prompt SDK with path: {sdk_params.get('path')}")
             if sdk_params.get('include_patterns'):
@@ -177,7 +164,7 @@ def main():
         'path': '.',
         'template': 'generate-diagram-description-flowchart.hbs',
         'output': 'output/flowchart-analysis.md',
-        'filter': 'main.py,bank.py,client.py'
+        'include_patterns': ['main.py', 'bank.py', 'client.py']
     }
     
     try:

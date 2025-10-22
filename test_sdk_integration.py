@@ -16,9 +16,9 @@ def test_basic_usage():
     
     config = {
         'path': '.',
-        'filter': '*.py',
-        'exclude': '__pycache__/*,*.pyc,test_*.py',
-        'line_number': True,
+        'include_patterns': ['*.py'],
+        'exclude_patterns': ['__pycache__/*', '*.pyc', 'test_*.py'],
+        'line_numbers': True,
     }
     
     try:
@@ -51,8 +51,8 @@ def test_with_template():
         'path': '.',
         'template': 'generate-diagram-description.j2',
         'output': 'output/sdk-test-output.md',
-        'filter': '*.py',
-        'exclude': '__pycache__/*,*.pyc',
+        'include_patterns': ['*.py'],
+        'exclude_patterns': ['__pycache__/*', '*.pyc'],
         'variables': {
             'diagramType': 'uml'
         }
@@ -90,8 +90,8 @@ def test_convenience_method():
     
     config = {
         'path': '.',
-        'filter': '*.py',
-        'exclude': '__pycache__/*,*.pyc',
+        'include_patterns': ['*.py'],
+        'exclude_patterns': ['__pycache__/*', '*.pyc'],
     }
     
     try:

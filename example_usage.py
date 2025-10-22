@@ -18,9 +18,9 @@ def example_1_single_diagram_type():
         'path': '.',
         'template': 'generate-diagram-description.j2',
         'output': 'output/banking-uml-prompt.md',
-        'filter': '*.py',
-        'exclude': '__pycache__/*,venv/*,*.pyc,*_executor.py,example_*.py',
-        'line_number': True,
+        'include_patterns': ['*.py'],
+        'exclude_patterns': ['__pycache__/*', 'venv/*', '*.pyc', '*_executor.py', 'example_*.py'],
+        'line_numbers': True,
         'variables': {
             'diagramType': 'uml'
         }
@@ -52,8 +52,8 @@ def example_2_all_diagram_types():
             'path': '.',
             'template': 'generate-diagram-description.j2',
             'output': f'output/{diagram_type}-prompt.md',
-            'filter': '*.py',
-            'exclude': '__pycache__/*,venv/*,*.pyc,*_executor.py,example_*.py',
+            'include_patterns': ['*.py'],
+            'exclude_patterns': ['__pycache__/*', 'venv/*', '*.pyc', '*_executor.py', 'example_*.py'],
             'variables': {
                 'diagramType': diagram_type
             }
@@ -78,7 +78,7 @@ def example_3_specific_files():
         'path': ['bank.py', 'client.py', 'main.py'],
         'template': 'generate-diagram-description.j2',
         'output': 'output/core-banking-uml.md',
-        'line_number': True,
+        'line_numbers': True,
         'variables': {
             'diagramType': 'uml'
         }
@@ -103,9 +103,9 @@ def example_4_with_token_counting():
         'path': '.',
         'template': 'generate-diagram-description.j2',
         'output': 'output/sequence-with-tokens.md',
-        'filter': '*.py',
-        'exclude': '__pycache__/*,venv/*,*.pyc,*_executor.py,example_*.py',
-        'tokens': True,
+        'include_patterns': ['*.py'],
+        'exclude_patterns': ['__pycache__/*', 'venv/*', '*.pyc', '*_executor.py', 'example_*.py'],
+        'display_tokens': True,
         'encoding': 'cl100k_base',  # GPT-4 encoding
         'variables': {
             'diagramType': 'sequence'
@@ -132,9 +132,9 @@ def example_5_load_from_json_config():
         'path': '.',
         'template': 'generate-diagram-description.j2',
         'output': 'output/flowchart-from-config.md',
-        'filter': '*.py',
-        'exclude': '__pycache__/*,venv/*,*.pyc',
-        'line_number': True,
+        'include_patterns': ['*.py'],
+        'exclude_patterns': ['__pycache__/*', 'venv/*', '*.pyc'],
+        'line_numbers': True,
         'suppress_comments': False,
         'variables': {
             'diagramType': 'flowchart'

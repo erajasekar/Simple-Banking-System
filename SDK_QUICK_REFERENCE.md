@@ -20,8 +20,8 @@ from code2prompt_executor import Code2PromptExecutor
 # Basic usage
 config = {
     'path': '.',
-    'filter': '*.py',
-    'exclude': '__pycache__/*',
+    'include_patterns': ['*.py'],
+    'exclude_patterns': ['__pycache__/*'],
 }
 
 executor = Code2PromptExecutor(config)
@@ -58,7 +58,7 @@ config = {
     'path': '.',
     'template': 'generate-diagram-description.j2',
     'output': 'output/diagram.md',
-    'filter': '*.py',
+    'include_patterns': ['*.py'],
     'variables': {'diagramType': 'uml'}
 }
 
@@ -71,9 +71,9 @@ result = executor.execute()
 ```python
 config = {
     'path': '.',
-    'filter': '*.py,*.js,*.ts',  # Multiple types
-    'exclude': 'node_modules/*,__pycache__/*,*.pyc',
-    'line_number': True,
+    'include_patterns': ['*.py', '*.js', '*.ts'],  # Multiple types
+    'exclude_patterns': ['node_modules/*', '__pycache__/*', '*.pyc'],
+    'line_numbers': True,
 }
 
 executor = Code2PromptExecutor(config)
@@ -133,48 +133,48 @@ executor.execute_with_template_vars(
 | Key | Type | Description | Example |
 |-----|------|-------------|---------|
 | `path` | str | Path to analyze (required) | `'.'` or `'/path/to/project'` |
-| `filter` | str | Comma-separated include patterns | `'*.py,*.js'` |
-| `exclude` | str | Comma-separated exclude patterns | `'node_modules/*,*.pyc'` |
+| `include_patterns` | list | File patterns to include | `['*.py', '*.js']` |
+| `exclude_patterns` | list | File patterns to exclude | `['node_modules/*', '*.pyc']` |
 | `template` | str | Template file path | `'template.j2'` |
 | `output` | str | Output file path | `'output/result.md'` |
-| `line_number` | bool | Add line numbers | `True` |
+| `line_numbers` | bool | Add line numbers | `True` |
 | `suppress_comments` | bool | Strip comments | `True` |
 | `encoding` | str | File encoding | `'utf-8'` |
-| `tokens` | bool | Display token count | `True` |
+| `display_tokens` | bool | Display token count | `True` |
 | `variables` | dict | Template variables | `{'key': 'value'}` |
 
 ## Filter Patterns
 
-### Include Patterns (filter)
+### Include Patterns (include_patterns)
 
 ```python
 # Single type
-'filter': '*.py'
+'include_patterns': ['*.py']
 
 # Multiple types
-'filter': '*.py,*.js,*.ts'
+'include_patterns': ['*.py', '*.js', '*.ts']
 
 # Specific files
-'filter': 'main.py,app.py'
+'include_patterns': ['main.py', 'app.py']
 
 # With wildcards
-'filter': 'src/**/*.py'
+'include_patterns': ['src/**/*.py']
 ```
 
-### Exclude Patterns (exclude)
+### Exclude Patterns (exclude_patterns)
 
 ```python
 # Common excludes
-'exclude': '__pycache__/*,*.pyc,*.pyo'
+'exclude_patterns': ['__pycache__/*', '*.pyc', '*.pyo']
 
 # Multiple directories
-'exclude': 'node_modules/*,dist/*,build/*'
+'exclude_patterns': ['node_modules/*', 'dist/*', 'build/*']
 
 # Test files
-'exclude': 'tests/*,*_test.py,test_*.py'
+'exclude_patterns': ['tests/*', '*_test.py', 'test_*.py']
 
 # Combined
-'exclude': '__pycache__/*,node_modules/*,*.pyc,tests/*'
+'exclude_patterns': ['__pycache__/*', 'node_modules/*', '*.pyc', 'tests/*']
 ```
 
 ## Error Handling
@@ -182,7 +182,7 @@ executor.execute_with_template_vars(
 ```python
 from code2prompt_executor import Code2PromptExecutor
 
-config = {'path': '.', 'filter': '*.py'}
+config = {'path': '.', 'include_patterns': ['*.py']}
 
 try:
     executor = Code2PromptExecutor(config)
@@ -220,16 +220,16 @@ config = {}
 ### 2. Use Appropriate Filters
 ```python
 # Good - specific filters
-'filter': '*.py,*.js'
+'include_patterns': ['*.py', '*.js']
 
 # Less optimal - too broad
-'filter': '*'
+'include_patterns': ['*']
 ```
 
 ### 3. Exclude Build Artifacts
 ```python
 # Good - exclude generated files
-'exclude': '__pycache__/*,node_modules/*,dist/*,build/*,*.pyc'
+'exclude_patterns': ['__pycache__/*', 'node_modules/*', 'dist/*', 'build/*', '*.pyc']
 ```
 
 ### 4. Use Templates for Consistency
@@ -270,7 +270,7 @@ if not Path('template.j2').exists():
 # Check your filters
 config = {
     'path': '.',
-    'filter': '*.py',  # Make sure this matches your files
+    'include_patterns': ['*.py'],  # Make sure this matches your files
 }
 ```
 
