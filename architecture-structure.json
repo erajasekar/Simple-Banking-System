@@ -1,0 +1,198 @@
+{
+  "project_name": "Simple Banking System",
+  "architecture_type": "layered",
+  "description": "Python OOP-based banking system with CLI interface",
+  "layers": [
+    {
+      "name": "User Interface Layer",
+      "order": 1,
+      "components": [
+        {
+          "id": "ui_main",
+          "name": "Main Program",
+          "file": "main.py",
+          "type": "module",
+          "description": "Entry point and CLI interface for banking operations",
+          "responsibilities": [
+            "Display menu options",
+            "Handle user input",
+            "Coordinate between Bank and Client",
+            "Manage application flow"
+          ],
+          "key_methods": [
+            "main_loop",
+            "create_account_flow",
+            "login_flow",
+            "account_operations_flow"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Business Logic Layer",
+      "order": 2,
+      "components": [
+        {
+          "id": "bank",
+          "name": "Bank Class",
+          "file": "bank.py",
+          "type": "class",
+          "description": "Manages bank operations and client database",
+          "responsibilities": [
+            "Store client records",
+            "Authenticate users",
+            "Manage client database"
+          ],
+          "key_methods": [
+            "update_db(client)",
+            "authentication(name, account_number)"
+          ],
+          "attributes": [
+            "name: String",
+            "clients: List[Client]"
+          ]
+        },
+        {
+          "id": "client",
+          "name": "Client Class",
+          "file": "client.py",
+          "type": "class",
+          "description": "Represents individual bank account with operations",
+          "responsibilities": [
+            "Manage account data",
+            "Process withdrawals",
+            "Process deposits",
+            "Display balance"
+          ],
+          "key_methods": [
+            "__init__(name, deposit)",
+            "withdraw(amount)",
+            "deposit(amount)",
+            "balance()"
+          ],
+          "attributes": [
+            "account: Dict"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Data Layer",
+      "order": 3,
+      "components": [
+        {
+          "id": "db_clients",
+          "name": "In-Memory Database",
+          "file": "bank.py",
+          "type": "data_store",
+          "description": "List-based storage for client objects",
+          "data_structure": "List[Client]",
+          "persistence": "in-memory (volatile)"
+        },
+        {
+          "id": "account_dict",
+          "name": "Account Dictionary",
+          "file": "client.py",
+          "type": "data_structure",
+          "description": "Dictionary storing account information",
+          "schema": {
+            "account_number": "int (5 digits, 10000-99999)",
+            "name": "string",
+            "holdings": "int (balance amount)"
+          }
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "ui_main",
+      "to": "bank",
+      "type": "creates_instance",
+      "description": "Creates single Bank instance at program start",
+      "cardinality": "1:1",
+      "code_evidence": "bank = Bank()"
+    },
+    {
+      "from": "ui_main",
+      "to": "client",
+      "type": "creates_new",
+      "description": "Creates new Client instances for account creation",
+      "cardinality": "1:N",
+      "code_evidence": "client = Client(input('Name: '), int(input('Deposit amount: ')))"
+    },
+    {
+      "from": "ui_main",
+      "to": "bank",
+      "type": "calls_methods",
+      "description": "Invokes bank operations (update_db, authentication)",
+      "methods": ["update_db", "authentication"]
+    },
+    {
+      "from": "ui_main",
+      "to": "client",
+      "type": "calls_methods",
+      "description": "Invokes client operations (withdraw, deposit, balance)",
+      "methods": ["withdraw", "deposit", "balance"]
+    },
+    {
+      "from": "bank",
+      "to": "db_clients",
+      "type": "stores",
+      "description": "Persists client objects in list",
+      "cardinality": "1:N",
+      "code_evidence": "self.clients.append(client)"
+    },
+    {
+      "from": "bank",
+      "to": "client",
+      "type": "authenticates",
+      "description": "Validates credentials and returns client instance",
+      "code_evidence": "return self.clients[i]"
+    },
+    {
+      "from": "client",
+      "to": "account_dict",
+      "type": "manages",
+      "description": "Creates and modifies account dictionary",
+      "cardinality": "1:1",
+      "operations": ["create", "read", "update"]
+    },
+    {
+      "from": "db_clients",
+      "to": "client",
+      "type": "contains",
+      "description": "Stores multiple client instances",
+      "cardinality": "N:1"
+    }
+  ],
+  "data_flow": [
+    {
+      "name": "Account Creation Flow",
+      "path": ["ui_main", "client", "account_dict", "bank", "db_clients"],
+      "description": "User input → Client creation → Account initialization → Storage in bank database"
+    },
+    {
+      "name": "Authentication Flow",
+      "path": ["ui_main", "bank", "db_clients", "client"],
+      "description": "User credentials → Bank authentication → Database search → Client retrieval"
+    },
+    {
+      "name": "Transaction Flow",
+      "path": ["ui_main", "client", "account_dict"],
+      "description": "User operation → Client method → Account balance update"
+    }
+  ],
+  "external_dependencies": [
+    {
+      "module": "random",
+      "usage": "Generate unique account numbers (randint)",
+      "used_by": ["client"]
+    }
+  ],
+  "design_patterns": [
+    "Object-Oriented Programming",
+    "Layered Architecture",
+    "In-Memory Repository Pattern"
+  ]
+}
